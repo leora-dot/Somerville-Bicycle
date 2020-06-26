@@ -106,6 +106,10 @@ crash_bike_time_df.rename(columns = {"Location" :"BIKE CRASH"}, inplace = True)
 dates_df = pd.DataFrame(date_list, columns = ["date"])
 combo_by_dates_df = pd.merge(dates_df, police_bike_time_pivot_df, how = "outer")
 combo_by_dates_df = pd.merge(combo_by_dates_df, crash_bike_time_df, how = "outer")
+combo_by_dates_df["BIKEVIOL"] = combo_by_dates_df["BIKEVIOL"].fillna(0)
+combo_by_dates_df["BIKE CRASH"] = combo_by_dates_df["BIKE CRASH"].fillna(0)
+combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
+
 
 print(combo_by_dates_df)
 
