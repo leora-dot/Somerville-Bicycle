@@ -3,11 +3,22 @@ import pandas as pd
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
 crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
 
-#Filtering Police DF to relevant pieces
+#CLEANING POLICE DATA
 
 police_bike_df = police_df[ (police_df.inctype == "BIKEVIOL") | (police_df.inctype == "BIKE STOP") ].reset_index(drop = True)
 
-#Filtering Crash DF to relevant pieces
+print(police_bike_df.head())
+print(police_bike_df.dtypes)
+
+#Create date column
+police_bike_df['str_split'] = police_bike_df.dtreceived.str.split(" ")
+police_bike_df["date"] = police_bike_df.str_split.str.get(0)
+police_bike_df.drop(columns = ["str_split"], inplace = True)
+
+#print(police_bike_df.head())
+#print(police_bike_df.dtypes)
+
+#CLEANING CRASH DATA
 
 crash_bike_df = crash_df[crash_df.Bicycle == 1].reset_index(drop = True)
 
@@ -37,5 +48,5 @@ crash_bike_df.drop(columns = ['City', 'State', 'Weather (2&3)',
        'column 80', 'column 81', 'column 82', 'column 83', 'column 84',
        'column 85', 'column 86', 'column 87', 'column 88', 'column 89', 'Collision Manner (11)', 'Manner of Non-Motorist (Person) Collision'], inplace = True)
 
-print(crash_bike_df.head(10))
-print(crash_bike_df.columns)
+#print(crash_bike_df.head(10))
+#print(crash_bike_df.columns)
