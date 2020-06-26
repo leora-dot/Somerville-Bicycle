@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime
+from matplotlib import pyplot as plt
 
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
 crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
@@ -110,9 +111,28 @@ combo_by_dates_df["BIKEVIOL"] = combo_by_dates_df["BIKEVIOL"].fillna(0)
 combo_by_dates_df["BIKE CRASH"] = combo_by_dates_df["BIKE CRASH"].fillna(0)
 combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
+#Visualizing Trends
 
-print(combo_by_dates_df)
+#print(combo_by_dates_df)
 
+q1_dates = combo_by_dates_df["date"].values.tolist()
+q1_crashes = combo_by_dates_df["BIKE CRASH"].values.tolist()
+q1_stops = combo_by_dates_df["BIKE STOP"].values.tolist()
+q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(q1_dates)))]
+
+q1_viol = combo_by_dates_df["BIKEVIOL"].values.tolist()
+
+plt.figure(figsize=(15, 4))
+plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
+plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
+plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
+
+plt.legend()
+
+plt.show()
+plt.close("all")
+
+#combo_by_dates_df["BIKEVIOL"].values.tolist()
 
 #QUESTION II:
 #IF THERE APPEARS TO BE A CHRONOLOGICAL CONNECTION, IS THERE ALSO A GEOGRAPHICAL ONE?
