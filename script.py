@@ -51,18 +51,12 @@ crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
        'column 80', 'column 81', 'column 82', 'column 83', 'column 84',
        'column 85', 'column 86', 'column 87', 'column 88', 'column 89', 'Collision Manner (11)', 'Manner of Non-Motorist (Person) Collision'], inplace = True)
 
-
 #print(crash_bike_df.head())
 #print(crash_bike_df.columns)
 
 #COMPARING DATA
 
-min_bike_date = min(police_bike_df.date)
-max_bike_date = max(police_bike_df.date)
-min_crash_date = min(crash_bike_df.Date)
-max_crash_date = max(crash_bike_df.Date)
-
-print(min_bike_date)
-print(max_bike_date)
-print(min_crash_date)
-print(max_crash_date)
+min_police_date = min(police_df.date)
+max_police_date = max(police_df.date)
+min_crash_date = min(crash_df.Date)
+max_crash_date = max(crash_df.Date)
