@@ -25,6 +25,8 @@ max_crash_date = max(crash_df.Date)
 min_date = max(min_crash_date, min_police_date)
 max_date = min(max_crash_date, max_police_date)
 
+date_list = pd.date_range(min_date, max_date).tolist()
+
 #print(min_date)
 #print(max_date)
 
@@ -75,14 +77,26 @@ crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
 
 #COMPARING DATA
 
-print(police_bike_df)
-print(crash_bike_df)
+#print(police_bike_df)
+#print(crash_bike_df)
 
 #QUESTION I:
 #ARE MORE LIKELY TO STOP CYCLISTS IMMEDIATELY AFTER CYCLISTS HAVE BEEN HIT BY CARS?
 #FOR EACH DAY IN THE TIME PERIOD, HOW MANY CRASHES WITH CYCLISTS HAVE OCCURED? HOW MANY CYCLIST STOPS HAVE OCCURED?
 #VISUALIZE AS STACKED BAR CHARTS OVER TIME.
 
-#QUESTION II: 
+#Police Stops by Day
+police_bike_time_df = police_bike_df.groupby(["date", "inctype"]).stname1.count().reset_index()
+police_bike_time_df.rename(columns = {"stname1":"count"}, inplace = True)
+police_bike_time_pivot_df = police_bike_time_df.pivot(columns = "inctype", index = "date", values = "count").reset_index()
+police_bike_time_pivot_df["BIKE STOP"] = police_bike_time_pivot_df["BIKE STOP"].fillna(0)
+police_bike_time_pivot_df["BIKEVIOL"] = police_bike_time_pivot_df["BIKEVIOL"].fillna(0)
+
+
+print(police_bike_time_pivot_df)
+#print(police_bike_time_pivot_df.BIKEVIOL.value_counts())
+#print(police_bike_time_pivot_df["BIKE STOP"].value_counts())
+
+#QUESTION II:
 #IF THERE APPEARS TO BE A CHRONOLOGICAL CONNECTION, IS THERE ALSO A GEOGRAPHICAL ONE?
 #FIGURE OUT HOW TO TURN CROSS STREETS IN CRASH DATA INTO APPROXIMATE GPS COORDINATES (FOR FREE!) IN ORDER TO VISUALIZE.
