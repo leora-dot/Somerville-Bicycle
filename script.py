@@ -7,15 +7,14 @@ crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
 
 police_bike_df = police_df[ (police_df.inctype == "BIKEVIOL") | (police_df.inctype == "BIKE STOP") ].reset_index(drop = True)
 
-print(police_bike_df.head())
-print(police_bike_df.dtypes)
-
 #Create date column
 police_bike_df['str_split'] = police_bike_df.dtreceived.str.split(" ")
 police_bike_df["date"] = police_bike_df.str_split.str.get(0)
 police_bike_df.drop(columns = ["str_split"], inplace = True)
 
-#print(police_bike_df.head())
+police_bike_df.drop(columns = ["incnum", "inctypecode", "dtreceived", "stnum", "stname2"], inplace = True)
+
+print(police_bike_df.head())
 #print(police_bike_df.dtypes)
 
 #CLEANING CRASH DATA
