@@ -40,6 +40,7 @@ police_bike_df = police_df[ (police_df.inctype == "BIKEVIOL") | (police_df.incty
 
 police_bike_df.drop(columns = ["incnum", "inctypecode", "dtreceived", "stnum", "stname2"], inplace = True)
 
+
 #print(police_bike_df.dtypes)
 
 #CREATING & CLEANING BIKE CRASH DATA
@@ -72,13 +73,12 @@ crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
        'column 80', 'column 81', 'column 82', 'column 83', 'column 84',
        'column 85', 'column 86', 'column 87', 'column 88', 'column 89', 'Collision Manner (11)', 'Manner of Non-Motorist (Person) Collision'], inplace = True)
 
+crash_bike_df.rename(columns = {"Date": "date"}, inplace = True)
+
 #print(crash_bike_df.head())
 #print(crash_bike_df.columns)
 
 #COMPARING DATA
-
-#print(police_bike_df)
-#print(crash_bike_df)
 
 #QUESTION I:
 #ARE MORE LIKELY TO STOP CYCLISTS IMMEDIATELY AFTER CYCLISTS HAVE BEEN HIT BY CARS?
@@ -92,10 +92,18 @@ police_bike_time_pivot_df = police_bike_time_df.pivot(columns = "inctype", index
 police_bike_time_pivot_df["BIKE STOP"] = police_bike_time_pivot_df["BIKE STOP"].fillna(0)
 police_bike_time_pivot_df["BIKEVIOL"] = police_bike_time_pivot_df["BIKEVIOL"].fillna(0)
 
-
 print(police_bike_time_pivot_df)
-#print(police_bike_time_pivot_df.BIKEVIOL.value_counts())
-#print(police_bike_time_pivot_df["BIKE STOP"].value_counts())
+
+#Crashes by Day
+
+#print(crash_bike_df.head())
+crash_bike_time_df = crash_bike_df.groupby(["date",]).Location.count().reset_index()
+crash_bike_time_df.rename(columns = {"Location" :"BIKE CRASH"}, inplace = True)
+
+
+print(crash_bike_time_df)
+
+
 
 #QUESTION II:
 #IF THERE APPEARS TO BE A CHRONOLOGICAL CONNECTION, IS THERE ALSO A GEOGRAPHICAL ONE?
