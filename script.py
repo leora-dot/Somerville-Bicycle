@@ -20,6 +20,9 @@ police_bike_df.drop(columns = ["incnum", "inctypecode", "dtreceived", "stnum", "
 
 #CLEANING CRASH DATA
 
+#formating date column
+crash_df["Date"] = pd.to_datetime(crash_df.Date)
+
 crash_bike_df = crash_df[crash_df.Bicycle == 1].reset_index(drop = True)
 
 crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
@@ -48,8 +51,6 @@ crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
        'column 80', 'column 81', 'column 82', 'column 83', 'column 84',
        'column 85', 'column 86', 'column 87', 'column 88', 'column 89', 'Collision Manner (11)', 'Manner of Non-Motorist (Person) Collision'], inplace = True)
 
-#formating date column
-crash_bike_df["Date"] = pd.to_datetime(crash_bike_df.Date)
 
 #print(crash_bike_df.head())
 #print(crash_bike_df.columns)
