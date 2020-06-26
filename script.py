@@ -25,10 +25,14 @@ max_crash_date = max(crash_df.Date)
 min_date = max(min_crash_date, min_police_date)
 max_date = min(max_crash_date, max_police_date)
 
-print(min_date)
-print(max_date)
+#print(min_date)
+#print(max_date)
 
-#CLEANING POLICE DATA
+#Limiting both dfs to overlapping time periods only
+police_df = police_df[ (police_df.date >= min_date) & (police_df.date <= max_date) ].reset_index(drop = True)
+crash_df = crash_df[ (crash_df.Date >= min_date) & (crash_df.Date <= max_date) ].reset_index(drop = True)
+
+#CREATING & CLEANING BIKE POLICE DATA
 
 police_bike_df = police_df[ (police_df.inctype == "BIKEVIOL") | (police_df.inctype == "BIKE STOP") ].reset_index(drop = True)
 
@@ -36,7 +40,7 @@ police_bike_df.drop(columns = ["incnum", "inctypecode", "dtreceived", "stnum", "
 
 #print(police_bike_df.dtypes)
 
-#CLEANING CRASH DATA
+#CREATING & CLEANING BIKE CRASH DATA
 
 crash_bike_df = crash_df[crash_df.Bicycle == 1].reset_index(drop = True)
 
