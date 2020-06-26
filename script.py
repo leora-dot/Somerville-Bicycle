@@ -92,7 +92,7 @@ police_bike_time_pivot_df = police_bike_time_df.pivot(columns = "inctype", index
 police_bike_time_pivot_df["BIKE STOP"] = police_bike_time_pivot_df["BIKE STOP"].fillna(0)
 police_bike_time_pivot_df["BIKEVIOL"] = police_bike_time_pivot_df["BIKEVIOL"].fillna(0)
 
-print(police_bike_time_pivot_df)
+#print(police_bike_time_pivot_df)
 
 #Crashes by Day
 
@@ -100,9 +100,14 @@ print(police_bike_time_pivot_df)
 crash_bike_time_df = crash_bike_df.groupby(["date",]).Location.count().reset_index()
 crash_bike_time_df.rename(columns = {"Location" :"BIKE CRASH"}, inplace = True)
 
+#print(crash_bike_time_df)
 
-print(crash_bike_time_df)
+#Combined Date by Date
+dates_df = pd.DataFrame(date_list, columns = ["date"])
+combo_by_dates_df = pd.merge(dates_df, police_bike_time_pivot_df, how = "outer")
+combo_by_dates_df = pd.merge(combo_by_dates_df, crash_bike_time_df, how = "outer")
 
+print(combo_by_dates_df)
 
 
 #QUESTION II:
