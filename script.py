@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
 crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
@@ -47,5 +48,5 @@ crash_bike_df.drop(columns = ['City', 'State', 'Weather (2&3)',
        'column 80', 'column 81', 'column 82', 'column 83', 'column 84',
        'column 85', 'column 86', 'column 87', 'column 88', 'column 89', 'Collision Manner (11)', 'Manner of Non-Motorist (Person) Collision'], inplace = True)
 
-#print(crash_bike_df.head(10))
+print(crash_bike_df.head())
 #print(crash_bike_df.columns)
