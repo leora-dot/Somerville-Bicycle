@@ -4,13 +4,31 @@ import datetime
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
 crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
 
-#CLEANING POLICE DATA
+#EQUALIZING DATES
 
-#Create date column
+#creating date column for police data
 police_df['str_split'] = police_df.dtreceived.str.split(" ")
 police_df["date"] = police_df.str_split.str.get(0)
 police_df["date"] = pd.to_datetime(police_df.date)
 police_df.drop(columns = ["str_split"], inplace = True)
+
+#formating date column for crash data
+crash_df["Date"] = pd.to_datetime(crash_df.Date)
+
+#Identifying date cutoffs
+min_police_date = min(police_df.date)
+max_police_date = max(police_df.date)
+
+min_crash_date = min(crash_df.Date)
+max_crash_date = max(crash_df.Date)
+
+min_date = max(min_crash_date, min_police_date)
+max_date = min(max_crash_date, max_police_date)
+
+print(min_date)
+print(max_date)
+
+#CLEANING POLICE DATA
 
 police_bike_df = police_df[ (police_df.inctype == "BIKEVIOL") | (police_df.inctype == "BIKE STOP") ].reset_index(drop = True)
 
@@ -19,9 +37,6 @@ police_bike_df.drop(columns = ["incnum", "inctypecode", "dtreceived", "stnum", "
 #print(police_bike_df.dtypes)
 
 #CLEANING CRASH DATA
-
-#formating date column
-crash_df["Date"] = pd.to_datetime(crash_df.Date)
 
 crash_bike_df = crash_df[crash_df.Bicycle == 1].reset_index(drop = True)
 
@@ -55,8 +70,3 @@ crash_bike_df.drop(columns = ['City', 'Time', 'State', 'Weather (2&3)',
 #print(crash_bike_df.columns)
 
 #COMPARING DATA
-
-min_police_date = min(police_df.date)
-max_police_date = max(police_df.date)
-min_crash_date = min(crash_df.Date)
-max_crash_date = max(crash_df.Date)
