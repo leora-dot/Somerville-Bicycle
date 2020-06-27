@@ -112,6 +112,9 @@ combo_by_dates_df["BIKEVIOL"] = combo_by_dates_df["BIKEVIOL"].fillna(0)
 combo_by_dates_df["BIKE CRASH"] = combo_by_dates_df["BIKE CRASH"].fillna(0)
 combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
+combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(str)
+#combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(strftime("%b %d %Y"))
+
 #Visualizing Trends
 
 #print(combo_by_dates_df)
@@ -133,14 +136,11 @@ plt.legend()
 plt.title("Bike Incidents by Day")
 plt.ylabel("Number of Incidents")
 
+
 plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
-#ax.set_xticks(q1_dates, rotation = 90)
-#ax.set_xticklabels(q1_dates)
 
 plt.show()
 plt.close("all")
-
-#combo_by_dates_df["BIKEVIOL"].values.tolist()
 
 #QUESTION II:
 #IF THERE APPEARS TO BE A CHRONOLOGICAL CONNECTION, IS THERE ALSO A GEOGRAPHICAL ONE?
