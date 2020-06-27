@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime
+import numpy as np
 from matplotlib import pyplot as plt
 
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
@@ -123,11 +124,18 @@ q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(q1_
 q1_viol = combo_by_dates_df["BIKEVIOL"].values.tolist()
 
 plt.figure(figsize=(15, 4))
+ax = plt.subplot()
 plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
 plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
 plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
 
 plt.legend()
+plt.title("Bike Incidents by Day")
+plt.ylabel("Number of Incidents")
+
+plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
+#ax.set_xticks(q1_dates, rotation = 90)
+#ax.set_xticklabels(q1_dates)
 
 plt.show()
 plt.close("all")
