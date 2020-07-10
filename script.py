@@ -146,11 +146,7 @@ def crash_and_stop_visualizer():
 
 #That is absolutely overwhelming. Split it up by year!
 
-#date_cutoffs_2010_2018 =[ [datetime.date(i, 1, 1), datetime.date(i, 12, 31)] for i in range(2010, 2019)]
 date_cutoffs_2010_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2010, 2019)]
-
-print(date_cutoffs_2010_2018[0][0])
-print(type(date_cutoffs_2010_2018[0][0]))
 
 def updated_visualizer(date_cutoff_list):
     num_periods = len(date_cutoff_list)
@@ -170,7 +166,7 @@ def updated_visualizer(date_cutoff_list):
 
         q1_viol = combo_by_dates_df_cutoff["BIKEVIOL"].values.tolist()
         #create visualization
-        ax = plt.subplot(num_periods, 1, i)
+        ax = plt.subplot(num_periods, 1, i+1)
 
         plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
         plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
