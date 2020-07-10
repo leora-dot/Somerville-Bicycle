@@ -112,7 +112,7 @@ combo_by_dates_df["BIKEVIOL"] = combo_by_dates_df["BIKEVIOL"].fillna(0)
 combo_by_dates_df["BIKE CRASH"] = combo_by_dates_df["BIKE CRASH"].fillna(0)
 combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
-combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(str)
+#combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(str)
 
 
 #Visualizing Trends
@@ -146,7 +146,11 @@ def crash_and_stop_visualizer():
 
 #That is absolutely overwhelming. Split it up by year!
 
-date_cutoffs_2010_2018 =[ [datetime.date(i, 1, 1), datetime.date(i, 12, 31)] for i in range(2010, 2019)]
+#date_cutoffs_2010_2018 =[ [datetime.date(i, 1, 1), datetime.date(i, 12, 31)] for i in range(2010, 2019)]
+date_cutoffs_2010_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2010, 2019)]
+
+print(date_cutoffs_2010_2018[0][0])
+print(type(date_cutoffs_2010_2018[0][0]))
 
 def updated_visualizer(date_cutoff_list):
     num_periods = len(date_cutoff_list)
@@ -155,7 +159,7 @@ def updated_visualizer(date_cutoff_list):
     for i in range(num_periods):
         #limit data to correct range
         cutoff_min_date, cutoff_max_date = date_cutoff_list[i][0], date_cutoff_list[i][1]
-        
+
         combo_by_dates_df_cutoff = combo_by_dates_df[(combo_by_dates_df.date < cutoff_max_date) | (combo_by_dates_df.date > cutoff_min_date)].reset_index(drop = True)
 
         #generate label names
