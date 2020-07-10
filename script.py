@@ -118,7 +118,8 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
 def crash_and_stop_visualizer(date_cutoff_list):
     num_periods = len(date_cutoff_list)
-    plt.figure(figsize=(15, 4*num_periods))
+    #plt.figure(figsize=(15, 4*num_periods))
+    plt.figure(figsize = (10, 10))
 
     for i in range(num_periods):
         #limit data to correct range
@@ -134,26 +135,39 @@ def crash_and_stop_visualizer(date_cutoff_list):
         q1_viol = combo_by_dates_df_cutoff["BIKEVIOL"].values.tolist()
         #create visualization
         ax = plt.subplot(num_periods, 1, i+1)
-
         plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
         plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
         plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
 
         #plt.legend()
-        ax.set_ylim([0,5.5])
-        plt.title("{} Bike Incidents by Day".format(year))
+        ax.set_ylim([0, 5.5])
+        ax.set_xlim([0, 365])
+        plt.title(year)
         #plt.ylabel("Number of Incidents")
 
+        #if you were going to label every date
         #plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
 
-    #show & close
+        #if you're going to label each month
+        #months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #plt.xticks(range(1,13), (months), rotation = 45)
 
+
+    #show & close
+    plt.suptitle("Daily Bike Incidents")
+
+    plt.tight_layout()
     plt.show()
     plt.close("all")
 
 date_cutoffs_2010_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2010, 2019)]
 
 crash_and_stop_visualizer(date_cutoffs_2010_2018)
+
+#What is wrong with this visualization:
+    #need to space out subplots...it seems to resist every attempt to do so.
+    #can you add a legends and titles that are shared by the whole figure?
+    #add tickmarks and labels for dates. maybe by month?
 
 #QUESTION I, METHOD 2
 #WHAT IS STATISTICALLY SIGNIFICANT?
@@ -167,7 +181,7 @@ crash_and_stop_visualizer(date_cutoffs_2010_2018)
     #month - there is some seasonality here. probably will be smartest to treat it is a categorical variable.
         #look into how scipy handles mutually exclusive variables - you may need to exclude one month...
     #it may make sense to truncate the data in order to exclude the years where bike stops either didn't happen or weren't recorded. Alternatively, treat year as a categorical variable.
-    #how do you want to look at stops vs tickets? add them up? or treat seperately? 
+    #how do you want to look at stops vs tickets? add them up? or treat seperately?
 
 
 
