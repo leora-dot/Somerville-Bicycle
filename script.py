@@ -85,7 +85,9 @@ crash_bike_df.rename(columns = {"Date": "date"}, inplace = True)
 #QUESTION I:
 #ARE MORE LIKELY TO STOP CYCLISTS IMMEDIATELY AFTER CYCLISTS HAVE BEEN HIT BY CARS?
 #FOR EACH DAY IN THE TIME PERIOD, HOW MANY CRASHES WITH CYCLISTS HAVE OCCURED? HOW MANY CYCLIST STOPS HAVE OCCURED?
-#VISUALIZE AS STACKED BAR CHARTS OVER TIME.
+
+#QUESTION I, METHOD I
+#WHAT CAN YOU SEE BY OBSERVING THE DATA VISUALLY?
 
 #Police Stops by Day
 police_bike_time_df = police_bike_df.groupby(["date", "inctype"]).stname1.count().reset_index()
@@ -102,8 +104,6 @@ police_bike_time_pivot_df["BIKEVIOL"] = police_bike_time_pivot_df["BIKEVIOL"].fi
 crash_bike_time_df = crash_bike_df.groupby(["date",]).Location.count().reset_index()
 crash_bike_time_df.rename(columns = {"Location" :"BIKE CRASH"}, inplace = True)
 
-#print(crash_bike_time_df)
-
 #Combined Date by Date
 dates_df = pd.DataFrame(date_list, columns = ["date"])
 combo_by_dates_df = pd.merge(dates_df, police_bike_time_pivot_df, how = "outer")
@@ -114,10 +114,7 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
 #combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(str)
 
-
 #Visualizing Trends
-
-#print(combo_by_dates_df)
 
 def crash_and_stop_visualizer(date_cutoff_list):
     num_periods = len(date_cutoff_list)
@@ -157,6 +154,21 @@ def crash_and_stop_visualizer(date_cutoff_list):
 date_cutoffs_2010_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2010, 2019)]
 
 crash_and_stop_visualizer(date_cutoffs_2010_2018)
+
+#QUESTION I, METHOD 2
+#WHAT IS STATISTICALLY SIGNIFICANT?
+
+#just based on the visual inspection, I'm not sure whether this worthwhile.
+
+#A regression predicting the number of bike tickets per day should do the trick. There are a couple of attributes it might make sense to look at:
+    #days since last bike accident
+    #accidents in last 30 days (rolling)
+    #weekend vs weekday
+    #month - there is some seasonality here. probably will be smartest to treat it is a categorical variable.
+        #look into how scipy handles mutually exclusive variables - you may need to exclude one month...
+    #it may make sense to truncate the data in order to exclude the years where bike stops either didn't happen or weren't recorded. Alternatively, treat year as a categorical variable.
+    #how do you want to look at stops vs tickets? add them up? or treat seperately? 
+
 
 
 #QUESTION II:
