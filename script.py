@@ -2,6 +2,7 @@ import pandas as pd
 import datetime
 import numpy as np
 from matplotlib import pyplot as plt
+import matplotlib.dates as mdates
 
 police_df = pd.read_csv("Police_Traffic_Enforcement_Activity.csv")
 crash_df = pd.read_csv("Motor_Vehicle_Crash_Reports.csv")
@@ -147,6 +148,10 @@ def crash_and_stop_visualizer(date_cutoff_list):
 
         #if you were going to label every date
         #plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
+        
+        months = mdates.MonthLocator()
+        months_fmt = mdates.DateFormatter("%m")
+        ax.xaxis.set_major_formatter(months_fmt)
 
         #if you're going to label each month
         #months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
