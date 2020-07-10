@@ -118,18 +118,17 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 #Visualizing Trends
 
 def crash_and_stop_visualizer(date_cutoff_list):
+    #setting up the figure
     num_periods = len(date_cutoff_list)
-    #plt.figure(figsize=(15, 4*num_periods))
     plt.figure(figsize = (9, 9))
 
+    #creating each subplot
     for i in range(num_periods):
         #limit data to correct range
         cutoff_min_date, cutoff_max_date = date_cutoff_list[i][0], date_cutoff_list[i][1]
         combo_by_dates_df_cutoff = combo_by_dates_df[(combo_by_dates_df.date < cutoff_max_date) & (combo_by_dates_df.date > cutoff_min_date)].reset_index(drop = True)
 
-
-        #generate label names
-        year = pd.to_datetime(cutoff_min_date).year
+        #convert pandas dataframes into lists
         dates = pd.to_datetime(combo_by_dates_df_cutoff["date"].values.tolist())
         dates = [np.datetime64(x) for x in dates]
 
@@ -137,23 +136,31 @@ def crash_and_stop_visualizer(date_cutoff_list):
         q1_stops = combo_by_dates_df_cutoff["BIKE STOP"].values.tolist()
         q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(dates)))]
         q1_viol = combo_by_dates_df_cutoff["BIKEVIOL"].values.tolist()
+
         #create visualization
         ax = plt.subplot(num_periods, 1, i+1)
         plt.bar(dates, q1_crashes, label = "Bike Crashes")
         plt.bar(dates, q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
         plt.bar(dates, q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
 
-        #plt.legend()
+        #format axes
         ax.set_ylim([0, 5.5])
-        ax.set_xlim([cutoff_min_date, cutoff_max_date])
-        plt.title(year)
-        #plt.ylabel("Number of Incidents")
-
         ax.xaxis_date()
+        ax.set_xlim([cutoff_min_date, cutoff_max_date])
 
-        months = mdates.MonthLocator()
+        #Labels
+        year = pd.to_datetime(cutoff_min_date).year
+        plt.title(year)
+
         months_fmt = mdates.DateFormatter("%b")
         ax.xaxis.set_major_formatter(months_fmt)
+
+        days = mdates.DayLocator()
+        ax.xaxis.set_minor_locator(days)
+
+        #plt.ylabel("Number of Incidents")
+
+        #plt.legend()
 
     #show & close
     plt.suptitle("Daily Bike Incidents")
@@ -162,9 +169,9 @@ def crash_and_stop_visualizer(date_cutoff_list):
     plt.show()
     plt.close("all")
 
-date_cutoffs_2010_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2010, 2019)]
+date_cutoffs_2012_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(datetime.date(i, 12, 31))] for i in range(2012, 2019)]
 
-crash_and_stop_visualizer(date_cutoffs_2010_2018)
+crash_and_stop_visualizer(date_cutoffs_2012_2018)
 
 #What is wrong with this visualization:
     #need to space out subplots...it seems to resist every attempt to do so.
