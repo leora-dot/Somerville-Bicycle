@@ -127,6 +127,7 @@ def crash_and_stop_visualizer(date_cutoff_list):
         cutoff_min_date, cutoff_max_date = date_cutoff_list[i][0], date_cutoff_list[i][1]
         combo_by_dates_df_cutoff = combo_by_dates_df[(combo_by_dates_df.date < cutoff_max_date) & (combo_by_dates_df.date > cutoff_min_date)].reset_index(drop = True)
 
+
         #generate label names
         year = pd.to_datetime(cutoff_min_date).year
         dates = pd.to_datetime(combo_by_dates_df_cutoff["date"].values.tolist())
@@ -144,23 +145,16 @@ def crash_and_stop_visualizer(date_cutoff_list):
 
         #plt.legend()
         ax.set_ylim([0, 5.5])
-        #ax.set_xlim([0, 365])
+        ax.set_xlim([cutoff_min_date, cutoff_max_date])
         plt.title(year)
         #plt.ylabel("Number of Incidents")
-
-        #if you were going to label every date
-        #plt.xticks(np.arange(len(dates)), (dates), rotation = 45)
 
         ax.xaxis_date()
 
         months = mdates.MonthLocator()
-        months_fmt = mdates.DateFormatter("%B")
+        #months_fmt = mdates.DateFormatter("%B")
+        months_fmt = mdates.DateFormatter("%b")
         ax.xaxis.set_major_formatter(months_fmt)
-
-        #if you're going to label each month
-        #months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        #plt.xticks(range(1,13), (months), rotation = 45)
-
 
     #show & close
     plt.suptitle("Daily Bike Incidents")
