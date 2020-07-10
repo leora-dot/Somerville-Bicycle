@@ -129,28 +129,32 @@ def crash_and_stop_visualizer(date_cutoff_list):
 
         #generate label names
         year = pd.to_datetime(cutoff_min_date).year
-        q1_dates = combo_by_dates_df_cutoff["date"].values.tolist()
+        dates = pd.to_datetime(combo_by_dates_df_cutoff["date"].values.tolist())
+        dates = [np.datetime64(x) for x in dates]
+
         q1_crashes = combo_by_dates_df_cutoff["BIKE CRASH"].values.tolist()
         q1_stops = combo_by_dates_df_cutoff["BIKE STOP"].values.tolist()
-        q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(q1_dates)))]
+        q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(dates)))]
         q1_viol = combo_by_dates_df_cutoff["BIKEVIOL"].values.tolist()
         #create visualization
         ax = plt.subplot(num_periods, 1, i+1)
-        plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
-        plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
-        plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
+        plt.bar(dates, q1_crashes, label = "Bike Crashes")
+        plt.bar(dates, q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
+        plt.bar(dates, q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
 
         #plt.legend()
         ax.set_ylim([0, 5.5])
-        ax.set_xlim([0, 365])
+        #ax.set_xlim([0, 365])
         plt.title(year)
         #plt.ylabel("Number of Incidents")
 
         #if you were going to label every date
-        #plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
-        
+        #plt.xticks(np.arange(len(dates)), (dates), rotation = 45)
+
+        ax.xaxis_date()
+
         months = mdates.MonthLocator()
-        months_fmt = mdates.DateFormatter("%m")
+        months_fmt = mdates.DateFormatter("%B")
         ax.xaxis.set_major_formatter(months_fmt)
 
         #if you're going to label each month
