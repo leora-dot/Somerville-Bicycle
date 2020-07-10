@@ -113,34 +113,42 @@ combo_by_dates_df["BIKE CRASH"] = combo_by_dates_df["BIKE CRASH"].fillna(0)
 combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 
 combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(str)
-#combo_by_dates_df["date"] = combo_by_dates_df["date"].apply(strftime("%b %d %Y"))
+
 
 #Visualizing Trends
 
 #print(combo_by_dates_df)
 
-q1_dates = combo_by_dates_df["date"].values.tolist()
-q1_crashes = combo_by_dates_df["BIKE CRASH"].values.tolist()
-q1_stops = combo_by_dates_df["BIKE STOP"].values.tolist()
-q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(q1_dates)))]
+def crash_and_stop_visualizer():
+    q1_dates = combo_by_dates_df["date"].values.tolist()
+    q1_crashes = combo_by_dates_df["BIKE CRASH"].values.tolist()
+    q1_stops = combo_by_dates_df["BIKE STOP"].values.tolist()
+    q1_crashes_plus_stops = [q1_crashes[i] + q1_stops[i] for i in list(range(len(q1_dates)))]
 
-q1_viol = combo_by_dates_df["BIKEVIOL"].values.tolist()
+    q1_viol = combo_by_dates_df["BIKEVIOL"].values.tolist()
 
-plt.figure(figsize=(15, 4))
-ax = plt.subplot()
-plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
-plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
-plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
+    plt.figure(figsize=(15, 4))
+    ax = plt.subplot()
+    plt.bar(range(len(q1_dates)), q1_crashes, label = "Bike Crashes")
+    plt.bar(range(len(q1_dates)), q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
+    plt.bar(range(len(q1_dates)), q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
 
-plt.legend()
-plt.title("Bike Incidents by Day")
-plt.ylabel("Number of Incidents")
+    plt.legend()
+    plt.title("Bike Incidents by Day")
+    plt.ylabel("Number of Incidents")
+
+    plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
+
+    plt.show()
+    plt.close("all")
+
+crash_and_stop_visualizer()
+
+#That is absolutely overwhelming. Split it up by year!
+
+date_set_list =[ [datetime.date(i, 1, 1), datetime.date(i, 12, 31)] for i in range(2010, 2019)]
 
 
-plt.xticks(np.arange(len(q1_dates)), (q1_dates), rotation = 45)
-
-plt.show()
-plt.close("all")
 
 #QUESTION II:
 #IF THERE APPEARS TO BE A CHRONOLOGICAL CONNECTION, IS THERE ALSO A GEOGRAPHICAL ONE?
