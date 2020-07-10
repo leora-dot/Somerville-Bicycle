@@ -120,7 +120,7 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 def crash_and_stop_visualizer(date_cutoff_list):
     num_periods = len(date_cutoff_list)
     #plt.figure(figsize=(15, 4*num_periods))
-    plt.figure(figsize = (10, 10))
+    plt.figure(figsize = (9, 9))
 
     for i in range(num_periods):
         #limit data to correct range
@@ -152,7 +152,6 @@ def crash_and_stop_visualizer(date_cutoff_list):
         ax.xaxis_date()
 
         months = mdates.MonthLocator()
-        #months_fmt = mdates.DateFormatter("%B")
         months_fmt = mdates.DateFormatter("%b")
         ax.xaxis.set_major_formatter(months_fmt)
 
