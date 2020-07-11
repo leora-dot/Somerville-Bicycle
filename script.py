@@ -120,7 +120,7 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 def crash_and_stop_visualizer(date_cutoff_list):
     #setting up the figure
     num_periods = len(date_cutoff_list)
-    fig = plt.figure(figsize = (17, 9))
+    fig = plt.figure(figsize = (18, 9))
 
     #creating each subplot
     for i in range(num_periods):
@@ -160,8 +160,8 @@ def crash_and_stop_visualizer(date_cutoff_list):
         if i == num_periods -1:
             plt.legend(loc = "lower center", bbox_to_anchor = (0.5, 0), bbox_transform = fig.transFigure, ncol = 3)
 
-        #days = mdates.DayLocator()
-        #ax.xaxis.set_minor_locator(days)
+        days = mdates.DayLocator()
+        ax.xaxis.set_minor_locator(days)
 
     #figure adjustments
     plt.tight_layout()
@@ -174,10 +174,6 @@ date_cutoffs_2012_2018 =[ [np.datetime64(datetime.date(i, 1, 1)), np.datetime64(
 
 crash_and_stop_visualizer(date_cutoffs_2012_2018)
 
-#What is wrong with this visualization:
-    #need to space out subplots...it seems to resist every attempt to do so.
-    #can you add a legends and titles that are shared by the whole figure?
-    #add tickmarks and labels for dates. maybe by month?
 
 #QUESTION I, METHOD 2
 #WHAT IS STATISTICALLY SIGNIFICANT?
