@@ -120,7 +120,7 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 def crash_and_stop_visualizer(date_cutoff_list):
     #setting up the figure
     num_periods = len(date_cutoff_list)
-    fig = plt.figure(figsize = (9, 9))
+    fig = plt.figure(figsize = (17, 9))
 
     #creating each subplot
     for i in range(num_periods):
