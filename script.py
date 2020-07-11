@@ -151,18 +151,17 @@ def crash_and_stop_visualizer(date_cutoff_list):
         #Labels
         year = pd.to_datetime(cutoff_min_date).year
         plt.title("{} Daily Bike Incidents".format(year), fontsize = 10 )
+        plt.ylabel("Incidents")
 
         months_fmt = mdates.DateFormatter("%b")
         ax.xaxis.set_major_formatter(months_fmt)
 
         #legend
         if i == num_periods -1:
-            plt.legend(loc = "center right")
+            plt.legend(loc = "lower center", bbox_to_anchor = (0.5, 0), bbox_transform = fig.transFigure, ncol = 3)
 
         #days = mdates.DayLocator()
         #ax.xaxis.set_minor_locator(days)
-
-        plt.ylabel("Incidents")
 
     #figure adjustments
     plt.tight_layout()
