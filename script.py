@@ -120,7 +120,7 @@ combo_by_dates_df["BIKE STOP"] = combo_by_dates_df["BIKE STOP"].fillna(0)
 def crash_and_stop_visualizer(date_cutoff_list):
     #setting up the figure
     num_periods = len(date_cutoff_list)
-    plt.figure(figsize = (9, 9))
+    fig = plt.figure(figsize = (9, 9))
 
     #creating each subplot
     for i in range(num_periods):
@@ -139,9 +139,9 @@ def crash_and_stop_visualizer(date_cutoff_list):
 
         #create visualization
         ax = plt.subplot(num_periods, 1, i+1)
-        plt.bar(dates, q1_crashes, label = "Bike Crashes")
-        plt.bar(dates, q1_stops, label = "Police Bike Stops", bottom = q1_crashes)
-        plt.bar(dates, q1_viol, label = "Police Bike Violations", bottom = q1_crashes_plus_stops)
+        plt.bar(dates, q1_crashes, label = "Crashes")
+        plt.bar(dates, q1_stops, label = "Police Stops", bottom = q1_crashes)
+        plt.bar(dates, q1_viol, label = "Police Violations", bottom = q1_crashes_plus_stops)
 
         #format axes
         ax.set_ylim([0, 5.5])
@@ -150,22 +150,24 @@ def crash_and_stop_visualizer(date_cutoff_list):
 
         #Labels
         year = pd.to_datetime(cutoff_min_date).year
-        plt.title(year)
+        plt.title("{} Daily Bike Incidents".format(year), fontsize = 10 )
 
         months_fmt = mdates.DateFormatter("%b")
         ax.xaxis.set_major_formatter(months_fmt)
 
-        days = mdates.DayLocator()
-        ax.xaxis.set_minor_locator(days)
+        #legend
+        if i == num_periods -1:
+            plt.legend(loc = "center right")
 
-        #plt.ylabel("Number of Incidents")
+        #days = mdates.DayLocator()
+        #ax.xaxis.set_minor_locator(days)
 
-        #plt.legend()
+        plt.ylabel("Incidents")
+
+    #figure adjustments
+    plt.tight_layout()
 
     #show & close
-    plt.suptitle("Daily Bike Incidents")
-
-    plt.tight_layout()
     plt.show()
     plt.close("all")
 
